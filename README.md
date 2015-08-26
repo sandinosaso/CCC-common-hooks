@@ -74,6 +74,59 @@ reference GitHub issues that this commit **Closes**.
 
 **Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this
 
+###Automatically checking message format
+----------------------------------------
+
+You can use a Git Hook to automatically check the format whenever you make a git commit.
+This way you ensure your commits are correct before doing them. All this is done automatically
+by an script that is called when you do git commit -m "YOUR MESSAGE"
+
+You can use this file https://gist.github.com/sandinosaso/76ce4f2323e2cacd469d
+save it to PROJECT_HOME_FOLDER/.git/hooks/prepare-commit-msg
+
+and give it run permissions:
+```chmod +x prepare-commit-msg```
+
+Example usage:
+
+**Wrong commit message get refused automatically:**
+
+```
+sandino@envy:~/github/CCCAPI/api$ git commit -m "Fix some bug error."
+> Wrong commit message aborting commit: prepare-commit-msg.
+> Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE>(<footer>)"`
+```
+
+**Good commit message:**
+
+```
+sandino@envy:~/github/CCCAPI/api$ git commit -m "fix(UserController.php): Fixes problem when obtaining licensee
+
+After blank line this is the body of the commit messages
+it can have several lines longs"
+> Commit message OK: prepare-commit-msg
+[CA-21 0c48cb0] [CA-21] fix(UserController.php): Fixes problem when obtaining licensee
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ ```
+
+In the commit that was ok, the branch name is prepended to your commit message
+automatically, so the text becomes:
+
+```
+"[CA-21] fix(UserController.php): Fixes problem..."
+```
+
+This way your commit automatically get tracked by JIRA issue an you can see it easily.
+Moreover when your branch get merged to master it easy and clear to see where those commits
+came from just looking at the list because they start with the JIRA issue ID.
+
+You can use this hook to help you but if you find it is more restrictive or just not 
+usefull you can change the code and share it with other if you make any improvment.
+The code is in php so it easy to understand the hardest part may be the regular expression
+that is used to check the commit message format, you can use this online tool to test
+the expression that is currently being used: https://regex101.com/r/hP0bO5/ and test your changes.
+
+
 The workflow: Jira and GitHub
 -----------------------------
 
