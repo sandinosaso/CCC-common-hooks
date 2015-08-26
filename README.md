@@ -151,19 +151,19 @@ rm -fR SIPPSAssessment/.git/hooks/
 ```
 
 ```
-ln -s CCC-common-hooks/hooks ccc-customer-admin/.git/hooks/
-ln -s CCC-common-hooks/hooks ccc-lh/.git/hooks/
-ln -s CCC-common-hooks/hooks ccc-sipps-admin/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCAdmin/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCAuth/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCBWAssessments/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCCommon/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCDeploy/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCLanguage/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCPortal/.git/hooks/
-ln -s CCC-common-hooks/hooks DSCRedirect/.git/hooks/
-ln -s CCC-common-hooks/hooks IWBA/.git/hooks/
-ln -s CCC-common-hooks/hooks SIPPSAssessment/.git/hooks/
+ln -s CCC-common-hooks/hooks ccc-customer-admin/.git/hooks
+ln -s CCC-common-hooks/hooks ccc-lh/.git/hooks
+ln -s CCC-common-hooks/hooks ccc-sipps-admin/.git/hooks
+ln -s CCC-common-hooks/hooks DSCAdmin/.git/hooks
+ln -s CCC-common-hooks/hooks DSCAuth/.git/hooks
+ln -s CCC-common-hooks/hooks DSCBWAssessments/.git/hooks
+ln -s CCC-common-hooks/hooks DSCCommon/.git/hooks
+ln -s CCC-common-hooks/hooks DSCDeploy/.git/hooks
+ln -s CCC-common-hooks/hooks DSCLanguage/.git/hooks
+ln -s CCC-common-hooks/hooks DSCPortal/.git/hooks
+ln -s CCC-common-hooks/hooks DSCRedirect/.git/hooks
+ln -s CCC-common-hooks/hooks IWBA/.git/hooks
+ln -s CCC-common-hooks/hooks SIPPSAssessment/.git/hooks
 ```
 
 
