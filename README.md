@@ -126,6 +126,46 @@ The code is in php so it easy to understand the hardest part may be the regular 
 that is used to check the commit message format, you can use this online tool to test
 the expression that is currently being used: https://regex101.com/r/hP0bO5/ and test your changes.
 
+This hook is already integrated to vagrant-dev-legacy machine so all apps will use it when 
+they are started first time.
+
+If you already have a vagrant created you can do this manually:
+
+```
+git clone git@github.com:sandinosaso/CCC-common-hooks.git
+rm -fR .git/hooks/
+cd apps
+rm -fR ccc-customer-admin/.git/hooks/
+rm -fR ccc-lh/.git/hooks/
+rm -fR ccc-sipps-admin/.git/hooks/
+rm -fR DSCAdmin/.git/hooks/
+rm -fR DSCAuth/.git/hooks/
+rm -fR DSCBWAssessments/.git/hooks/
+rm -fR DSCCommon/.git/hooks/
+rm -fR DSCDeploy/.git/hooks/
+rm -fR DSCLanguage/.git/hooks/
+rm -fR DSCPortal/.git/hooks/
+rm -fR DSCRedirect/.git/hooks/
+rm -fR IWBA/.git/hooks/
+rm -fR SIPPSAssessment/.git/hooks/
+```
+
+```
+ln -s CCC-common-hooks/hooks ccc-customer-admin/.git/hooks/
+ln -s CCC-common-hooks/hooks ccc-lh/.git/hooks/
+ln -s CCC-common-hooks/hooks ccc-sipps-admin/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCAdmin/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCAuth/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCBWAssessments/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCCommon/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCDeploy/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCLanguage/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCPortal/.git/hooks/
+ln -s CCC-common-hooks/hooks DSCRedirect/.git/hooks/
+ln -s CCC-common-hooks/hooks IWBA/.git/hooks/
+ln -s CCC-common-hooks/hooks SIPPSAssessment/.git/hooks/
+```
+
 
 The workflow: Jira and GitHub
 -----------------------------

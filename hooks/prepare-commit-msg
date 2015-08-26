@@ -27,17 +27,25 @@ if (in_array($branch_name,$excluded_branches_names)){
 define('COMMIT_MSG_REGEX', '/^(\['.$branch_name.'\])?\s?(feat|fix|docs|style|refactor|perf|test|chore)(\([^\n]*\))?:\s([^\n]*)[\n]{2}([^\n]*)[\n]{0,2}(.*)/s');
 define('COMMIT_MSG_PREFIX', "[$branch_name] \\0");
 define('BRANCH_NAME_REGEX', '/^\['.$branch_name.'\]/');
+define('MERGE_COMMIT_REGEX', '/^Merge/');
 
 $template = @file_get_contents($commit_editmsg_file);
+
 if (! $template) {
     _hook_status(1, 'Read error, empty `.git/COMMIT_EDITMSG` template');
 }
+
 if (preg_match('/^(\.|-a|--all|-.+)/', $template, $matches_a)) {
     _hook_status(1, "Error, unexpected `$matches_a[1]` in `.git/COMMIT_EDITMSG` template");
 }
 
 if (! isset($argv[2]) || 'message' !== $argv[2]) {
     _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE>(<footer>)"`');
+}
+
+if (preg_match(MERGE_COMMIT_REGEX, $template, $matches)) {
+    //If it is an automatic git merge message exit with success
+    _hook_status(0);
 }
 
 if (! preg_match(COMMIT_MSG_REGEX, $template, $matches)) {
