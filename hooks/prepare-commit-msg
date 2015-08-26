@@ -1,0 +1,82 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Git prepare-commit-msg hook to append [current_branch_bame] to commit messages
+ * also this check for proper git commit message format
+ * this way when commit get merged on master we can track them associated to JIRA.
+ *
+ *   Git hooks on Windows: Ensure that the path to PHP is added to the %PATH% variable, and run `git commit` via the Bash shell.
+ *
+ *   Usage:  `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE>(<footer>)" <FILE>`
+ *
+ * @copyright 2015-08-22 sandinosaso.
+ * @license MIT
+ * @link http://sandinosaso.gist
+ */
+
+
+$commit_editmsg_file = $argv[1];
+$excluded_branches_names = ['master'];
+
+$branch_name = trim(shell_exec('git symbolic-ref --short HEAD'));
+
+if (in_array($branch_name,$excluded_branches_names)){
+	//If current branch in the list of excluded branches exit with success
+	_hook_status(0);
+}
+define('COMMIT_MSG_REGEX', '/^(\['.$branch_name.'\])?\s?(feat|fix|docs|style|refactor|perf|test|chore)(\([^\n]*\))?:\s([^\n]*)[\n]{2}([^\n]*)[\n]{0,2}(.*)/s');
+define('COMMIT_MSG_PREFIX', "[$branch_name] \\0");
+define('BRANCH_NAME_REGEX', '/^\['.$branch_name.'\]/');
+
+$template = @file_get_contents($commit_editmsg_file);
+if (! $template) {
+    _hook_status(1, 'Read error, empty `.git/COMMIT_EDITMSG` template');
+}
+if (preg_match('/^(\.|-a|--all|-.+)/', $template, $matches_a)) {
+    _hook_status(1, "Error, unexpected `$matches_a[1]` in `.git/COMMIT_EDITMSG` template");
+}
+
+if (! isset($argv[2]) || 'message' !== $argv[2]) {
+    _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE>(<footer>)"`');
+}
+
+if (! preg_match(COMMIT_MSG_REGEX, $template, $matches)) {
+    _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE>(<footer>)"`');
+}
+
+if (! preg_match(BRANCH_NAME_REGEX, $template, $matches)){
+	$new_template = preg_replace(COMMIT_MSG_REGEX, COMMIT_MSG_PREFIX , $template);
+}else{
+	$new_template = $template;
+}
+
+$bytes = @file_put_contents($commit_editmsg_file, $new_template);
+if (! $bytes) {
+    _hook_status(1, 'Write error, `.git/COMMIT_EDITMSG` template');
+}
+
+_hook_status(0);
+
+
+
+
+function _hook_status($exit = 1, $message = NULL) {
+  switch ($exit) {
+    case 0:
+      // Success.. exit
+      echo '> Commit message OK: prepare-commit-msg' .PHP_EOL;
+      exit (0);
+    case -1:
+      // Intermediate status message
+      echo '> Hook OK: '. $message .PHP_EOL;
+      break;
+    case 1:
+    default:
+      // ERROR.. abort
+      echo '> Wrong commit message aborting commit: prepare-commit-msg.'. PHP_EOL .'> '. $message .PHP_EOL;
+	  exit($exit);
+  }
+}
+
+
+
