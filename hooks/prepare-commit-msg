@@ -40,7 +40,7 @@ if (preg_match('/^(\.|-a|--all|-.+)/', $template, $matches_a)) {
 }
 
 if (! isset($argv[2]) || 'message' !== $argv[2]) {
-    _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE><footer>"`');
+    _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE><footer>"`'.PHP_EOL.'Remember <type> valid values are (feat|fix|docs|style|refactor|perf|test|chore)');
 }
 
 if (preg_match(MERGE_COMMIT_REGEX, $template, $matches)) {
@@ -49,7 +49,7 @@ if (preg_match(MERGE_COMMIT_REGEX, $template, $matches)) {
 }
 
 if (! preg_match(COMMIT_MSG_REGEX, $template, $matches)) {
-    _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE><footer>"`');
+    _hook_status(1, 'Expecting `git commit -m "<type>(<scope>): <subject><BLANK LINE><body><BLANK LINE><footer>"`'.PHP_EOL.'Remember <type> valid values are (feat|fix|docs|style|refactor|perf|test|chore)');
 }
 
 if (! preg_match(BRANCH_NAME_REGEX, $template, $matches)){
